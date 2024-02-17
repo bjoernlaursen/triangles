@@ -26,14 +26,26 @@ public class TriangleClassifier
         double sideBCLength,
         double lengthComparisonPrecision = 0.0000001)
     {
+        if (double.IsNaN(sideABLength))
+            throw new ArgumentOutOfRangeException(nameof(sideABLength), "Value must not be double.NaN");
+        
+        if (double.IsNaN(sideACLength))
+            throw new ArgumentOutOfRangeException(nameof(sideACLength), "Value must not be double.NaN");
+        
+        if (double.IsNaN(sideBCLength))
+            throw new ArgumentOutOfRangeException(nameof(sideBCLength), "Value must not be double.NaN");
+        
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sideABLength);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sideACLength);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sideBCLength);
 
-        if (Math.Abs(sideABLength - sideACLength) < lengthComparisonPrecision && Math.Abs(sideABLength - sideBCLength) < lengthComparisonPrecision)
+        if (Math.Abs(sideABLength - sideACLength) < lengthComparisonPrecision &&
+            Math.Abs(sideABLength - sideBCLength) < lengthComparisonPrecision)
             return TriangleType.Equilateral;
 
-        if (Math.Abs(sideABLength - sideACLength) < lengthComparisonPrecision || Math.Abs(sideABLength - sideBCLength) < lengthComparisonPrecision || Math.Abs(sideBCLength - sideACLength) < lengthComparisonPrecision)
+        if (Math.Abs(sideABLength - sideACLength) < lengthComparisonPrecision ||
+            Math.Abs(sideABLength - sideBCLength) < lengthComparisonPrecision ||
+            Math.Abs(sideBCLength - sideACLength) < lengthComparisonPrecision)
             return TriangleType.Isosceles;
 
         return TriangleType.Scalene;
@@ -59,13 +71,11 @@ public class TriangleClassifier
                 $"All coordinates must be unique." +
                 $"Arguments {nameof(b)}: {b} and {nameof(c)}: {c} are identical");
 
-        var abLength = Math.Sqrt(Math.Pow(b.x - a.x, 2) + Math.Pow(b.y - a.y, 2));
-        var acLength = Math.Sqrt(Math.Pow(c.x - a.x, 2) + Math.Pow(c.y - a.y, 2));
-        var bcLength = Math.Sqrt(Math.Pow(c.x - b.x, 2) + Math.Pow(c.y - b.y, 2));
+        var abLength = Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
+        var acLength = Math.Sqrt(Math.Pow(c.X - a.X, 2) + Math.Pow(c.Y - a.Y, 2));
+        var bcLength = Math.Sqrt(Math.Pow(c.X - b.X, 2) + Math.Pow(c.Y - b.Y, 2));
         
         
         return GetTriangleTypeFromSideLengths(abLength, acLength, bcLength);
     }
-
-    public readonly record struct Coordinate(int x, int y);
 }
