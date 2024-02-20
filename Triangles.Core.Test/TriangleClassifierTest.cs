@@ -140,6 +140,72 @@ public abstract class TriangleClassifierTest
             Assert.Equal(TriangleType.Equilateral, actual);
         }
     }
+
+    public class FromInternalAngles
+    {
+        [Theory]
+        [InlineData(0d, 60d, 60d)]
+        [InlineData(60d, 0d, 60d)]
+        [InlineData(60d, 60d, 0d)]
+        [InlineData(-2d, 60d, 60d)]
+        [InlineData(60d, -2d, 60d)]
+        [InlineData(60d, 60d, -2d)]
+        [InlineData(180d, 60d, 60d)]
+        [InlineData(60d, 180d, 60d)]
+        [InlineData(60d, 60d, 180d)]
+        [InlineData(182d, 60d, 60d)]
+        [InlineData(60d, 182d, 60d)]
+        [InlineData(60d, 60d, 182d)]
+        public void When_an_angle_is_not_greater_than_0_and_less_than_180_then_throw(
+            double aDegrees,
+            double bDegrees,
+            double cDegrees) =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                TriangleClassifier.GetTriangleTypeFromInternalAngles(
+                    aDegrees: aDegrees,
+                    bDegrees: bDegrees,
+                    cDegrees: cDegrees));
+
+        [Theory]
+        [InlineData(100d, 40d, 40.99d)]
+        [InlineData(100d, 40d, 39.99d)]
+        public void When_all_internal_angles_do_not_add_up_to_180_Then_throw(
+            double aDegrees,
+            double bDegrees,
+            double cDegrees)
+        {
+            const double precision = 0.001;
+            Assert.Throws<ArgumentException>(() =>
+                TriangleClassifier.GetTriangleTypeFromInternalAngles(
+                    aDegrees: aDegrees,
+                    bDegrees: bDegrees,
+                    cDegrees: cDegrees,
+                    degreeComparisonPrecision: precision));
+        }
+
+        [Theory]
+        [InlineData(60d, 60d, 60d, TriangleType.Equilateral)]
+        [InlineData(60d, 60d, 59.9995d, TriangleType.Equilateral)]
+        [InlineData(40d, 40d, 100d, TriangleType.Isosceles)]
+        [InlineData(40d, 40d, 99.9995d, TriangleType.Isosceles)]
+        [InlineData(20d, 40d, 120d, TriangleType.Scalene)]
+        [InlineData(20d, 40d, 119.9995d, TriangleType.Scalene)]
+        public void When_all_internal_angles_do_add_up_to_180_within_precision_Then_triangle_type_is_calculated(
+            double aDegrees,
+            double bDegrees,
+            double cDegrees,
+            TriangleType expectedResult)
+        {
+            const double precision = 0.001;
+            var actual = TriangleClassifier.GetTriangleTypeFromInternalAngles(
+                aDegrees: aDegrees,
+                bDegrees: bDegrees,
+                cDegrees: cDegrees,
+                degreeComparisonPrecision: precision);
+            
+            Assert.Equal(expectedResult, actual);
+        }
+    }
     public class FromCoordinates
     {
         [Theory]
