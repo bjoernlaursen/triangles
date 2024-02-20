@@ -1,7 +1,9 @@
-* Skriv et program der kan bestemme typen på en trekant.
+### The contents of this repo is the solution to the following task description:
 
-* Løsningen skal tage de tre sider som input parameter og returnere om trekanten er ligesidet (equilateral), ligebenet (isosceles) eller uligesidet (scalene).
+* Write a program to determine the type of a triangle
 
-* Overvej test, validering og mulige fejl.
-﻿
-﻿Du bestemmer selv, hvordan du implementerer løsningen, men en konsol applikation er tilstrækkelig.
+* The solution must take the three sides as input parameters and return whether the triangle is equilateral, isosceles, or scalene.
+
+* Consider testing, validation, and possible errors.
+
+You decide for yourself how you want to implement the solution, but a console application is sufficient.
