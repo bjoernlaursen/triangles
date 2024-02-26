@@ -107,7 +107,7 @@ public static class TriangleClassifier
         var abLength = Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
         var acLength = Math.Sqrt(Math.Pow(c.X - a.X, 2) + Math.Pow(c.Y - a.Y, 2));
         var bcLength = Math.Sqrt(Math.Pow(c.X - b.X, 2) + Math.Pow(c.Y - b.Y, 2));
-        
+        //TODO: figure out whether calculating side lengths or internal angles is more efficient
         
         return GetTriangleTypeFromSideLengths(abLength, acLength, bcLength);
     }
